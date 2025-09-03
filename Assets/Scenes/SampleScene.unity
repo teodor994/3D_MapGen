@@ -477,7 +477,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapGenerator
   mapWidth: 100
   mapHeight: 100
-  noiseScale: 0.27
+  noiseScale: 2.76
+  octaves: 4
+  persistance: 0.495
+  lacunarity: 2
+  seed: 20
+  offset: {x: 13.44, y: 6.76}
   autoUpdate: 1
 --- !u!4 &1050226078
 Transform:

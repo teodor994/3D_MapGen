@@ -25,6 +25,9 @@ public static class Noise
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
+        float halfWidth = mapWidth / 2;
+        float halfHeight = mapHeight / 2; // when changing noisescale, zooming to the center
+
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
@@ -35,8 +38,8 @@ public static class Noise
 
                 for (int i = 0; i < octaves; i++)
                 {
-                    float sampleX = (float)x / scale * frequency + octaveOffsets[i].x;
-                    float sampleY = (float)y / scale * frequency + octaveOffsets[i].y;
+                    float sampleX = (float)(x - halfWidth) / scale * frequency + octaveOffsets[i].x;
+                    float sampleY = (float)(y - halfHeight) / scale * frequency + octaveOffsets[i].y;
                     float noiseValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1; //to have negative noise
                     //noiseMap[x, y] = noiseValue; -> default generation -> not useful
 
