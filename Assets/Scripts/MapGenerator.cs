@@ -13,11 +13,14 @@ public class MapGenerator : MonoBehaviour
     public float persistance;
     public float lacunarity;
 
+    public int seed;
+    public Vector2 offset;
+
     public bool autoUpdate;
 
     public void GenerateMap()
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale, octaves, persistance, lacunarity);
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
         MapDisplay display = FindFirstObjectByType<MapDisplay>();
         display.DrawNoiseMap(noiseMap);
