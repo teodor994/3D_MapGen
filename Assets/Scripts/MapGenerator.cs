@@ -4,6 +4,9 @@ using UnityEngine.Rendering;
 
 public class MapGenerator : MonoBehaviour
 {
+    public enum DrawMode {NoiseMap, ColourMap}; // which map do we want to see
+    public DrawMode drawMode;
+
     public int mapWidth;
     public int mapHeight;
 
@@ -19,12 +22,39 @@ public class MapGenerator : MonoBehaviour
 
     public bool autoUpdate;
 
+    public TerrainType[] regions;
+
     public void GenerateMap()
     {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
+        Color[] colorMap = new Color[mapWidth * mapHeight];
+
+        for (int y = 0; y < mapHeight; y++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                float currentHeight = noiseMap[x, y];
+                for(int i = 0; i < regions.Length; i++)
+                {
+                    if(currentHeight <= regions[i].height)
+                    {
+                        colorMap[y * mapWidth + x] = regions[i].colour;
+                        break;
+                    }
+                }
+            }
+        }
+
         MapDisplay display = FindFirstObjectByType<MapDisplay>();
-        display.DrawNoiseMap(noiseMap);
+        if (drawMode == DrawMode.NoiseMap)
+        {
+            display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
+        }
+        else if (drawMode == DrawMode.ColourMap)
+        {
+            display.DrawTexture(TextureGenerator.TextureFromColourMap(colorMap, mapWidth, mapHeight));
+        }
     }
 
     void OnValidate() //checks if variables are changed accordingly
@@ -38,4 +68,12 @@ public class MapGenerator : MonoBehaviour
         if(octaves < 0) 
             octaves = 0;
     }
+}
+
+[System.Serializable] //it will show in the inspector
+public struct TerrainType
+{
+    public float height;
+    public Color colour;
+    public string name;
 }
