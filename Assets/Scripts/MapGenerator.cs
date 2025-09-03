@@ -20,6 +20,11 @@ public class MapGenerator : MonoBehaviour
     public int seed;
     public Vector2 offset;
 
+    public float meshHeightMultiplier;
+    public AnimationCurve meshHeightCurve; // the water is also affected by the heightmultiplier
+    //we take this curve to set the impact of the heightmult. to every height level
+    // => on water, which is to aproximately 0.3 height the impact should be 0
+
     public bool autoUpdate;
 
     public TerrainType[] regions;
@@ -57,7 +62,7 @@ public class MapGenerator : MonoBehaviour
         }
         else if(drawMode == DrawMode.Mesh)
         {
-            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap), TextureGenerator.TextureFromColourMap(colorMap, mapWidth, mapHeight));
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultiplier), TextureGenerator.TextureFromColourMap(colorMap, mapWidth, mapHeight));
         }
     }
 
