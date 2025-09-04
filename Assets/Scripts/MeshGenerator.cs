@@ -4,9 +4,13 @@ using Unity.Burst;
 
 public static class MeshGenerator
 {
-    public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve heightCurve, int levelOfDetail)
-        //heightMultiplier raises up the Mesh in 3D, as the name suggests
+    public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve heightCurve1, int levelOfDetail)
+    //heightMultiplier raises up the Mesh in 3D, as the name suggests
     {
+        AnimationCurve heightCurve = new AnimationCurve(heightCurve1.keys);
+        //new HeightCurve because every thread needs a separate heightCurve, they might use the same one
+        //given as a parameter here resulting in odd results
+
         int width = heightMap.GetLength(0);
         int height = heightMap.GetLength(1);
 
