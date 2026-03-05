@@ -61,8 +61,8 @@ Steps:
 ## Demo Videos
 
 ### Terrain Generation by Seed Demo
-![Demo](videos/demo1.gif)
+![Demo](videos/demo2.gif)
 
 ### Navigation on length Demo
-![Demo](videos/demo2.gif)
+![Demo](videos/demo1.gif)
 
